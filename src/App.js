@@ -2,6 +2,7 @@ import React, {useState, useRef, useEffect} from 'react';
 import './App.css';
 import {BotIcon, SendIcon, TrashIcon, UserIcon} from 'lucide-react'
 import axios from 'axios';
+import LoadingIndicator from "./components/LoadingIndicator";
 
 const defaultMessage = 'Salut! Sunt USV Chat Bot. Cu ce pot sa te ajut astazi?'
 
@@ -23,6 +24,7 @@ const App = () => {
         {text: defaultMessage, isUser: false}
     ]);
     const [input, setInput] = useState('');
+    const [isLoading, setIsLoading] = useState(false);
     const messagesEndRef = useRef(null);
 
     const scrollToBottom = () => {
@@ -42,6 +44,8 @@ const App = () => {
             {text: input, isUser: true}
         ];
         setMessages(newMessages);
+        setIsLoading(true);
+        setInput('');
 
         try {
             const response = await axios.post('http://localhost:8080/api/v1/chat',
@@ -63,9 +67,10 @@ const App = () => {
                 ...prevMessages,
                 {text: 'Error sending message. Please try again.', isUser: false}
             ]);
+        }finally {
+            setIsLoading(false)
         }
 
-        setInput('');
     };
 
     const handleKeyPress = (e) => {
@@ -106,6 +111,7 @@ const App = () => {
                             isUser={msg.isUser}
                         />
                     ))}
+                    {isLoading && <LoadingIndicator />}
                     <div ref={messagesEndRef}/>
                 </div>
 
