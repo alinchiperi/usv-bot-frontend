@@ -3,6 +3,7 @@ import './App.css';
 import {BotIcon, SendIcon, TrashIcon, UserIcon} from 'lucide-react'
 import axios from 'axios';
 import LoadingIndicator from "./components/LoadingIndicator";
+import ReactMarkdown from "react-markdown";
 
 const defaultMessage = 'Salut! Sunt USV Chat Bot. Cu ce pot sa te ajut astazi?'
 
@@ -13,7 +14,11 @@ const ChatMessage = ({message, isUser}) => {
                 {isUser ? <UserIcon/> : <BotIcon/>}
             </div>
             <div className="flex-1">
-                <p className="text-gray-800 " style={{whiteSpace: 'pre-wrap'}}>{message}</p>
+                {isUser ? (
+                    <p className="text-gray-800" style={{whiteSpace: 'pre-wrap'}}>{message}</p>
+                ) : (
+                    <ReactMarkdown>{message}</ReactMarkdown>
+                )}
             </div>
         </div>
     );
