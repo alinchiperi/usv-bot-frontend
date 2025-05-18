@@ -3,7 +3,7 @@ import React from "react";
 import '../styles/LoadingIndicator.css';
 const LoadingIndicator = () => {
     return (
-        <div className="flex py-4 px-4 bg-white">
+        <div className="flex py-4 px-4 rounded-full bg-white">
             <div className="mr-4">
                 <BotIcon />
             </div>
